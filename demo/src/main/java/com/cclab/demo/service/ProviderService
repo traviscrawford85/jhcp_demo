@@ -1,9 +1,7 @@
-package com.cclab.demo.service;
-import com.cclab.demo.handler.ResourceNotFoundException;
 import com.cclab.demo.model.Provider;
 import com.cclab.demo.repository.ProviderRepository;
 import org.springframework.stereotype.Service;
-import com.cclab.demo.handler.ResourceNotFoundException;
+
 import java.util.List;
 
 @Service
@@ -38,10 +36,10 @@ public class ProviderService {
     public List<Provider> getProvidersByIsAcceptingNewPatients(Boolean isAcceptingNewPatients) {
         return providerRepository.findByIsAcceptingNewPatients(isAcceptingNewPatients);
     }
-
-
-    public List<Provider> findByDepartmentId(Long id) {
-        return providerRepository.findByDepartmentId(id);
-    }
 }
 
+class ResourceNotFoundException extends RuntimeException {
+    public ResourceNotFoundException(String message) {
+        super(message);
+    }
+}

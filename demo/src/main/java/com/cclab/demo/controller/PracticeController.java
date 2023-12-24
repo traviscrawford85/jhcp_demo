@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/practices")
+@RequestMapping("/api/practices")
 public class PracticeController {
     private final PracticeService practiceService;
 
@@ -17,14 +17,32 @@ public class PracticeController {
         this.practiceService = practiceService;
     }
 
-    @GetMapping
+    @GetMapping("api/practices")
     public List<Practice> getAllPractices() {
         return practiceService.findAll();
     }
 
 
-    @GetMapping("/{id}")
+    @GetMapping("/api/practices/{id}")
     public ResponseEntity<Practice> getPracticeById(@PathVariable Long id) {
+        Optional<Practice> practice = Optional.ofNullable(practiceService.findById(id));
+        return practice.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/api/practices/{id}/providers")
+    public ResponseEntity<Practice> getProvidersByPracticeId(@PathVariable Long id) {
+        Optional<Practice> practice = Optional.ofNullable(practiceService.findById(id));
+        return practice.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/api/practices/{id}/departments")
+    public ResponseEntity<Practice> getDepartmentsByPracticeId(@PathVariable Long id) {
+        Optional<Practice> practice = Optional.ofNullable(practiceService.findById(id));
+        return practice.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/api/practices/{id}/specialties")
+    public ResponseEntity<Practice> getSpecialtiesByPracticeId(@PathVariable Long id) {
         Optional<Practice> practice = Optional.ofNullable(practiceService.findById(id));
         return practice.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -44,15 +62,6 @@ public class PracticeController {
         return ResponseEntity.ok(practiceService.save(practice));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePractice(@PathVariable Long id) {
-        Optional<Practice> practice = Optional.ofNullable(practiceService.findById(id));
-        if (practice.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        practiceService.delete(id);
-        return ResponseEntity.ok().build();
-    }
 
 
 }

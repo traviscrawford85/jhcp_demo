@@ -32,4 +32,7 @@ public class DepartmentService {
         // Consider handling or logging cases where the department does not exist
         departmentRepository.deleteById(id);
     }
+
+
 }
+

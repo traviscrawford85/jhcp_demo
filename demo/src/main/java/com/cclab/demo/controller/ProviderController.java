@@ -9,35 +9,29 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/providers")
+@RequestMapping("/api/providers")
 public class ProviderController {
     @Autowired
     private ProviderService providerService;
 
-    @PostMapping
-    public Provider addProvider(@RequestBody Provider provider) {
-        return providerService.saveProvider(provider);
+    @GetMapping("/api/providers")
+    public List<Provider> getAllProviders() {
+        return providerService.getAllProviders();
     }
 
-    @GetMapping
-    public List<Provider> getProviders(@RequestParam(required = false) Long practiceId,
-                                       @RequestParam(required = false) Long departmentId,
-                                       @RequestParam(required = false) Boolean isAcceptingNewPatients) {
-        if (practiceId != null) {
-            return providerService.getProvidersByPractice(practiceId);
-        } else if (departmentId != null) {
-            return providerService.getProvidersByDepartment(departmentId);
-        } else if (isAcceptingNewPatients != null) {
-            return providerService.getProvidersByIsAcceptingNewPatients(isAcceptingNewPatients);
-        } else {
-            return providerService.getAllProviders();
-        }
-    }
-    @GetMapping("/{id}")
-    public ResponseEntity<Provider> getProviderById(@PathVariable Long id) {
-        Provider provider = providerService.findById(id);
-        return provider != null ? ResponseEntity.ok(provider) : ResponseEntity.notFound().build();
+    @GetMapping("/api/providers/practice")
+    public List<Provider> getProvidersByPractice(@RequestParam Long practiceId) {
+        return providerService.getProvidersByPractice(practiceId);
     }
 
+    @GetMapping("/api/providers/department")
+    public List<Provider> getProvidersByDepartment(@RequestParam Long departmentId) {
+        return providerService.getProvidersByDepartment(departmentId);
+    }
+
+    @GetMapping("/api/providers/acceptingPatients")
+    public List<Provider> getProvidersByAcceptingNewPatients(@RequestParam Boolean isAcceptingNewPatients) {
+        return providerService.getProvidersByIsAcceptingNewPatients(isAcceptingNewPatients);
+    }
 
 }

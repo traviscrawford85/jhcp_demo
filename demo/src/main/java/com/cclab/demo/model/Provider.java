@@ -17,7 +17,11 @@ public class Provider {
     @EqualsAndHashCode.Include
     private Long Id;
 
-    private String name;
+    @Column(name = "first_name") // Specify the column name in database
+    private String firstName;
+
+    @Column(name = "last_name") // Specify the column name in database
+    private String lastName;
 
     @ManyToMany
     @JoinTable(
@@ -25,6 +29,7 @@ public class Provider {
             joinColumns = @JoinColumn(name = "provider_id"),
             inverseJoinColumns = @JoinColumn(name = "credential_id")
     )
+
     private Set<Credential> credentials;
 
     @ManyToOne(fetch = FetchType.LAZY)

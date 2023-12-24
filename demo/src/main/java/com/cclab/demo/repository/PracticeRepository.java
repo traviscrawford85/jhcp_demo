@@ -9,7 +9,9 @@ import java.util.List;
 @Repository
 public interface PracticeRepository extends JpaRepository<Practice, Long> {
     // Custom query methods if needed
+    List<Practice> findByName(String name);
+
+    List<Practice> findByDepartmentId(Long id);
     List<Practice> findByIsAcceptingNewPatients(Boolean isAcceptingNewPatients);
 
-    List<Practice> findByName(String name);
 }
